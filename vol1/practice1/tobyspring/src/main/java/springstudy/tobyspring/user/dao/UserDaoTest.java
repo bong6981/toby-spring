@@ -1,20 +1,13 @@
 package springstudy.tobyspring.user.dao;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.SQLException;
 
 import springstudy.tobyspring.user.domain.User;
 
-public class NUserDao extends UserDao{
-    public Connection getConnection() throws ClassNotFoundException, SQLException {
-        //N사 DB Connection 코드 생성
-        Class.forName("com.mysql.cj.jdbc.Driver");
-        return DriverManager.getConnection("jdbc:mysql://localhost/tobyspringvol1", "scott", "tiger");
-    }
-
+public class UserDaoTest {
     public static void main(String[] args) throws SQLException, ClassNotFoundException {
-        UserDao dao = new NUserDao();
+        ConnectionMaker connectionMaker = new NConnectionMaker();
+        UserDao dao = new UserDao(connectionMaker);
 
         User user = new User();
         user.setId("whiteship");
