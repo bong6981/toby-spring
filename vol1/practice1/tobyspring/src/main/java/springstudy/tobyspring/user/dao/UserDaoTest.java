@@ -3,14 +3,15 @@ package springstudy.tobyspring.user.dao;
 import java.sql.SQLException;
 
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.context.support.GenericXmlApplicationContext;
 
 import springstudy.tobyspring.user.domain.User;
 
 public class UserDaoTest {
     public static void main(String[] args) throws SQLException, ClassNotFoundException {
 
-        ApplicationContext context = new AnnotationConfigApplicationContext(DaoFactory.class);
+//        ApplicationContext context = new AnnotationConfigApplicationContext(DaoFactory.class); 를 수정
+        ApplicationContext context = new GenericXmlApplicationContext("applicationContext.xml");
 
         UserDao userDao = context.getBean("userDao", UserDao.class);
 
