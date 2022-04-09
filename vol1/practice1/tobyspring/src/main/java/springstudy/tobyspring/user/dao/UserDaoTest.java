@@ -1,37 +1,53 @@
 package springstudy.tobyspring.user.dao;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import java.sql.SQLException;
 
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.GenericXmlApplicationContext;
+import org.springframework.dao.EmptyResultDataAccessException;
 
 import springstudy.tobyspring.user.domain.User;
 
 public class UserDaoTest {
 
     @Test
-    public void addAndGet() throws SQLException, ClassNotFoundException {
+    void addAndGet() throws SQLException, ClassNotFoundException {
 
         ApplicationContext context = new GenericXmlApplicationContext("applicationContext.xml");
 
         UserDao userDao = context.getBean("userDao", UserDao.class);
 
-        User user = new User();
-        user.setId("gyumee");
-        user.setName("박성철");
-        user.setPassword("springno1");
+        User user1 = new User("gyumee", "박성철", "springno1");
+        User user2 = new User("lee", "이길원", "springno2");
 
-        userDao.add(user);
+        userDao.deleteAll();
+        assertThat(userDao.getCount()).isEqualTo(0);
 
-        User user2 = userDao.get(user.getId());
+        userDao.add(user1);
+        userDao.add(user2);
+        assertThat(userDao.getCount()).isEqualTo(2);
 
-        assertThat(user2.getName()).isEqualTo(user.getName());
-        assertThat(user2.getPassword()).isEqualTo(user.getPassword());
+        User userget1 = userDao.get(user1.getId());
+        assertThat(userget1.getName()).isEqualTo(user1.getName());
+        assertThat(userget1.getPassword()).isEqualTo(user1.getPassword());
 
-        System.out.println(user2.getId() + " 조회 성공");
+        User userget2 = userDao.get(user2.getId());
+        assertThat(userget2.getName()).isEqualTo(user2.getName());
+        assertThat(userget2.getPassword()).isEqualTo(user2.getPassword());
+    }
+
+    @Test
+    void getUserFailure() throws SQLException {
+        ApplicationContext context = new GenericXmlApplicationContext("applicationContext.xml");
+
+        UserDao userDao = context.getBean("userDao", UserDao.class);
+        userDao.deleteAll();
+        assertThat(userDao.getCount()).isEqualTo(0);
+
+        assertThatThrownBy(() -> userDao.get("unknown_id")).isInstanceOf(EmptyResultDataAccessException.class);
     }
 }
