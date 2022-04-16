@@ -30,7 +30,6 @@ import springstudy.tobyspring.user.domain.User;
 @DirtiesContext
 public class UserDaoTest {
 
-    @Autowired
     private UserDao userDao;
     private User user1;
     private User user2;
@@ -39,6 +38,7 @@ public class UserDaoTest {
     @BeforeEach
     void setUp() {
 
+        userDao = new UserDao();
         DataSource dataSource = DataSourceBuilder.create()
                 .driverClassName("com.mysql.cj.jdbc.Driver")
                 .url("jdbc:mysql://localhost/tobyspringvol1")
