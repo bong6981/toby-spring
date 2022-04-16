@@ -5,16 +5,20 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import java.sql.SQLException;
 
+import javax.sql.DataSource;
+
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.GenericXmlApplicationContext;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
@@ -23,10 +27,9 @@ import springstudy.tobyspring.user.domain.User;
 @ExtendWith(SpringExtension.class)
 //@SpringBootTest
 @ContextConfiguration(locations = "/applicationContext.xml")
+@DirtiesContext
 public class UserDaoTest {
 
-    @Autowired
-    private  ApplicationContext context;
     @Autowired
     private UserDao userDao;
     private User user1;
@@ -35,9 +38,14 @@ public class UserDaoTest {
 
     @BeforeEach
     void setUp() {
-        System.out.println(this.context);
-        System.out.println(this);
-//        this.userDao = context.getBean("userDao", UserDao.class);
+
+        DataSource dataSource = DataSourceBuilder.create()
+                .driverClassName("com.mysql.cj.jdbc.Driver")
+                .url("jdbc:mysql://localhost/tobyspringvol1")
+                .username("scott")
+                .password("tiger")
+                .build();
+        userDao.setDataSource(dataSource);
 
         this.user1 = new User("pilhwankim", "김필환", "secret2@");
         this.user2 = new User("leegm700", "이길원", "springno1");
