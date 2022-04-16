@@ -9,13 +9,24 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.GenericXmlApplicationContext;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import springstudy.tobyspring.user.domain.User;
 
+@ExtendWith(SpringExtension.class)
+//@SpringBootTest
+@ContextConfiguration(locations = "/applicationContext.xml")
 public class UserDaoTest {
+
+    @Autowired
+    private  ApplicationContext context;
     private UserDao userDao;
     private User user1;
     private User user2;
@@ -23,7 +34,8 @@ public class UserDaoTest {
 
     @BeforeEach
     void setUp() {
-        ApplicationContext context = new GenericXmlApplicationContext("applicationContext.xml");
+        System.out.println(this.context);
+        System.out.println(this);
         this.userDao = context.getBean("userDao", UserDao.class);
 
         this.user1 = new User("pilhwankim", "김필환", "secret2@");
