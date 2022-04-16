@@ -26,7 +26,7 @@ import springstudy.tobyspring.user.domain.User;
 
 @ExtendWith(SpringExtension.class)
 //@SpringBootTest
-@ContextConfiguration(locations = "/applicationContext.xml")
+@ContextConfiguration(locations = "/test-applicationContext.xml")
 @DirtiesContext
 public class UserDaoTest {
 
