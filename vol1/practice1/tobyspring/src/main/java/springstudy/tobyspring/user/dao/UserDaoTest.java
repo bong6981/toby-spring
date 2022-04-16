@@ -27,6 +27,7 @@ public class UserDaoTest {
 
     @Autowired
     private  ApplicationContext context;
+    @Autowired
     private UserDao userDao;
     private User user1;
     private User user2;
@@ -36,7 +37,7 @@ public class UserDaoTest {
     void setUp() {
         System.out.println(this.context);
         System.out.println(this);
-        this.userDao = context.getBean("userDao", UserDao.class);
+//        this.userDao = context.getBean("userDao", UserDao.class);
 
         this.user1 = new User("pilhwankim", "김필환", "secret2@");
         this.user2 = new User("leegm700", "이길원", "springno1");
