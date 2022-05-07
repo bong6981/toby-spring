@@ -29,4 +29,9 @@ public class CalcSumTest {
         int sum = calculator.calcMultiply(numFilepath);
         assertThat(sum).isEqualTo(24);
     }
+
+    @Test
+    public void concatenateStrings() throws IOException {
+        assertThat(calculator.concatenate(this.numFilepath)).isEqualTo(("1234"));
+    }
 }
