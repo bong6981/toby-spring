@@ -11,9 +11,14 @@ import springstudy.tobyspring.user.domain.User;
 
 public class UserDao {
     private DataSource dataSource;
+    private JdbcContext jdbcContext;
 
     public void setDataSource(DataSource dataSource) {
         this.dataSource = dataSource;
+    }
+
+    public void  setJdbcContext(JdbcContext jdbcContext) {
+        this.jdbcContext = jdbcContext;
     }
 
     public void add(final User user) throws SQLException {
